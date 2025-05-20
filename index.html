@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Windows Media Player</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wmp-window">
+    <div class="top-bar">
+      <div class="menu-button" id="organiserBtn">Organiser ▼</div>
+      <div class="menu-dropdown" id="dropdownMenu">
+        <label for="fileInput">Importer un fichier…</label>
+        <input type="file" id="fileInput" multiple hidden />
+      </div>
+    </div>
+
+    <div class="player-area">
+      <audio id="audioPlayer" controls></audio>
+      <ul id="playlist"></ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
