@@ -1,27 +1,164 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Windows Media Player</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Lecteur Media Web - Style WMP</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+
+    .player-container {
+      width: 700px;
+      margin: 30px auto;
+      background: linear-gradient(to bottom, #1a1a1a, #000);
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+      overflow: hidden;
+    }
+
+    .nav-bar {
+      display: flex;
+      justify-content: space-around;
+      background: linear-gradient(to bottom, #2d2d2d, #1a1a1a);
+      border-bottom: 1px solid #333;
+      padding: 10px 0;
+    }
+
+    .nav-bar button {
+      background: #3a3a3a;
+      border: none;
+      padding: 8px 16px;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .nav-bar button:hover {
+      background: #4a90e2;
+    }
+
+    .video-area {
+      background: url('https://i.imgur.com/ZPLxFb3.png') no-repeat center;
+      background-size: cover;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    video {
+      max-width: 95%;
+      max-height: 90%;
+      display: none;
+    }
+
+    .controls {
+      background: linear-gradient(to bottom, #222, #111);
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .controls button {
+      background: #4a90e2;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 18px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .controls input[type="range"] {
+      width: 100px;
+    }
+
+    .file-input {
+      text-align: center;
+      margin: 15px;
+    }
+
+    .file-input input {
+      background-color: #222;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 5px;
+      border: 1px solid #444;
+    }
+  </style>
 </head>
 <body>
-  <div class="wmp-window">
-    <div class="top-bar">
-      <div class="menu-button" id="organiserBtn">Organiser ▼</div>
-      <div class="menu-dropdown" id="dropdownMenu">
-        <label for="fileInput">Importer un fichier…</label>
-        <input type="file" id="fileInput" multiple hidden />
-      </div>
+  <div class="player-container">
+    <!-- Barre de navigation -->
+    <div class="nav-bar">
+      <button>Lecture</button>
+      <button>Bibliothèque</button>
+      <button>Copier du disque</button>
+      <button>Graver</button>
+      <button>Synchroniser</button>
     </div>
 
-    <div class="player-area">
-      <audio id="audioPlayer" controls></audio>
-      <ul id="playlist"></ul>
+    <!-- Zone vidéo -->
+    <div class="video-area" id="videoContainer">
+      <video id="mediaPlayer" controls></video>
+    </div>
+
+    <!-- Contrôles -->
+    <div class="controls">
+      <button onclick="rewind()">⏪</button>
+      <button onclick="playPause()">▶️</button>
+      <button onclick="forward()">⏩</button>
+      <input type="range" min="0" max="1" step="0.1" onchange="setVolume(this.value)">
+    </div>
+
+    <!-- Charger un fichier -->
+    <div class="file-input">
+      <label for="fileInput">📁 Choisir un fichier local :</label>
+      <input type="file" id="fileInput" accept="audio/*,video/*">
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const video = document.getElementById('mediaPlayer');
+    const videoContainer = document.getElementById('videoContainer');
+    const fileInput = document.getElementById('fileInput');
+
+    function playPause() {
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    }
+
+    function rewind() {
+      video.currentTime -= 10;
+    }
+
+    function forward() {
+      video.currentTime += 10;
+    }
+
+    function setVolume(val) {
+      video.volume = val;
+    }
+
+    fileInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file) {
+        const fileURL = URL.createObjectURL(file);
+        video.src = fileURL;
+        video.style.display = 'block';
+      }
+    });
+  </script>
 </body>
 </html>
